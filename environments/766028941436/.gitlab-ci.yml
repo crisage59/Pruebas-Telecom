@@ -8,7 +8,7 @@ include:
       s3_bucket_name: sitios-wordpress-artifacts-20250328160339807200000001
       dynamodb_table: sitios-wordpress-terraform-state-lock
       role_name: terraform/sitios-wordpress-gitlab-deploy-role
-      s3_bucket_key: sitios-wordpress/estandardigital-test/terraform.tfstate
+      s3_bucket_key: sitios-wordpress/talentotech/terraform.tfstate
       # workspace_key_prefix: terraform/IaC/820242945253
 
   #PIPELINE
