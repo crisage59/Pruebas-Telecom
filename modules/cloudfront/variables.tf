@@ -19,10 +19,10 @@ variable "tags" {
   type        = map(string)
 }
 
-# variable "waf_id" {
-#   type = string
-#   default = ""
-# }
+ variable "waf_id" {
+   type = string
+   default = ""
+ }
 
 variable "allowed_countries" {
   type = list(string)
