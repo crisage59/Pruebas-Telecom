@@ -1,4 +1,3 @@
-
 include:
   #BACKEND
 #  - component: gitlab.com/telecom-argentina/devops/cicd/components/terraform-components/terraform-backend-generator-s3/monorepo-component@2.0.0
@@ -13,6 +12,7 @@ include:
       s3_bucket_key: sitios-wordpress/talentotech/terraform.tfstate
       # workspace_key_prefix: terraform/IaC/820242945253
       stage: .pre
+
   #PIPELINE
 #  - component: gitlab.com/telecom-argentina/devops/cicd/components/terraform-components/terraform-monorepo-pipeline/component@1.0.0
   - component: $CI_SERVER_FQDN/telecom-argentina/devops/cicd/components/iac-components/terraform/terraform-monorepo-component@~latest
@@ -20,3 +20,4 @@ include:
       target: "766028941436"
       target_parent_directory: "environments"
       backend_type: s3
+
