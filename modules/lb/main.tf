@@ -141,7 +141,8 @@ resource "aws_lb_listener_rule" "this" {
 
 # }
 
-resource "aws_lb_listener_certificate" "this" {
-  listener_arn    = var.listener_public
+resource "aws_lb_listener_certificate" "internal" {
+  listener_arn    = var.listener_private
   certificate_arn = var.acm_certificate_arn
+
 }
