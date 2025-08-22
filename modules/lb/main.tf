@@ -94,52 +94,52 @@ resource "aws_lb_listener_rule" "this" {
 }
 
 
-# resource "aws_lb_listener_rule" "this_cognito" {
-#   listener_arn = var.listener_public
+resource "aws_lb_listener_rule" "this_cognito" {
+  listener_arn = var.listener_public
 
-#   condition {
-#     host_header {
-#       values = ["${var.tags.Site}.cba.gov.ar"]
-#     }
-#   }
+  condition {
+    host_header {
+      values = ["${var.tags.Site}.cba.gov.ar"]
+    }
+  }
 
-#   condition {
-#     path_pattern {
-#       values = ["/wp-login.php", "/wp-admin", "/wp-admin/","/wp-admin/*"]
-#     }
-#   }
+  condition {
+    path_pattern {
+      values = ["/wp-login.php", "/wp-admin", "/wp-admin/","/wp-admin/*"]
+    }
+  }
 
-  # action {
-  #   type = "authenticate-cognito"
+  action {
+    type = "authenticate-cognito"
     
-  #   authenticate_cognito {
-  #     user_pool_arn       = var.user_pool_arn
-  #     user_pool_client_id = var.user_pool_client_id
-  #     user_pool_domain    = var.user_pool_domain
-  #     authentication_request_extra_params = {
-  #       display = "page"
-  #       prompt  = "login"
-  #     }
-  #     session_timeout = "3600"
-  #   }
-  # }
+    authenticate_cognito {
+      user_pool_arn       = var.user_pool_arn
+      user_pool_client_id = var.user_pool_client_id
+      user_pool_domain    = var.user_pool_domain
+      authentication_request_extra_params = {
+        display = "page"
+        prompt  = "login"
+      }
+      session_timeout = "3600"
+    }
+  }
 
-#   action {
-#     type = "forward"
-#     forward {
-#       target_group {
-#         arn    = aws_lb_target_group.this.arn
-#         weight = 1
-#       }
-#       stickiness{
-#         duration = 3600
-#       }
-#     }
-#   }
+  action {
+    type = "forward"
+    forward {
+      target_group {
+        arn    = aws_lb_target_group.this.arn
+        weight = 1
+      }
+      stickiness{
+        duration = 3600
+      }
+    }
+  }
 
-#   priority = 199
+  priority = 199
 
-# }
+}
 
 resource "aws_lb_listener_certificate" "internal" {
   listener_arn    = var.listener_private
