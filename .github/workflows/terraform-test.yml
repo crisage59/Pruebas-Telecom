@@ -1,8 +1,4 @@
-env:
-  AWS_ACCESS_KEY_ID: FAKE
-  AWS_SECRET_ACCESS_KEY: FAKE
-
-name: Terraform Test (Local)
+name: Terraform Test
 
 on:
   push:
@@ -12,6 +8,7 @@ on:
 
 jobs:
   terraform:
+    name: Terraform Validate and Plan (Local)
     runs-on: ubuntu-latest
 
     defaults:
@@ -19,7 +16,7 @@ jobs:
         working-directory: environments/766028941436
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Setup Terraform
@@ -34,7 +31,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-  env:
-    AWS_ACCESS_KEY_ID: FAKE
-    AWS_SECRET_ACCESS_KEY: FAKE
-  run: terraform plan -input=false || echo "Plan falló, es parte de la prueba"
+        run: terraform plan -input=false || echo "Plan falló, es parte de la prueba"
+        env:
+          AWS_ACCESS_KEY_ID: FAKE
+          AWS_SECRET_ACCESS_KEY: FAKE
