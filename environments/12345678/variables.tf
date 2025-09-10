@@ -134,3 +134,8 @@ variable "lb_name" {
 variable "allowed_countries" {
   type = list(string)
 }
+
+variable "region" {
+  type    = string
+  default = "us-east-1"
+}
