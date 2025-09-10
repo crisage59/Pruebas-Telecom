@@ -1,4 +1,4 @@
-name: Terraform Test
+name: Terraform Multi-Account
 
 on:
   push:
@@ -7,14 +7,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  terraform:
-    name: Terraform Validate and Plan (Local)
+  account1:
+    name: Deploy en Cuenta AWS 1
     runs-on: ubuntu-latest
-
     defaults:
       run:
         working-directory: environments/766028941436
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,11 +25,32 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Validate
-        run: terraform validate
+      - name: Terraform Plan
+        run: terraform plan -input=false
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS1_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS1_SECRET_ACCESS_KEY }}
+
+  account2:
+    name: Deploy en Cuenta AWS 2
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: environments/12345678
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.0
+
+      - name: Terraform Init
+        run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -input=false || echo "Plan falló, es parte de la prueba"
+        run: terraform plan -input=false
         env:
-          AWS_ACCESS_KEY_ID: FAKE
-          AWS_SECRET_ACCESS_KEY: FAKE
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS2_SECRET_ACCESS_KEY }}
