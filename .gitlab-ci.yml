@@ -1,2 +1,0 @@
-include:
-  - local: 'environments/**/.gitlab-ci.yml'
