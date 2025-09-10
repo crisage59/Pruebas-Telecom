@@ -23,6 +23,13 @@ jobs:
         with:
           terraform_version: 1.6.0
 
+      - name: Imprimir variable de prueba
+        run: |
+              echo "🧪 Valor de la variable de prueba: $VARIABLE_PRUEBA"
+        env:
+         MI_VARIABLE_PRUEBA: ${{ vars.VARIABLE_PRUEBA }}
+
+
       - name: Verificar secretos AWS1
         run: |
           echo "✅ Verificando secretos de AWS1..."
@@ -72,6 +79,12 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.0
+
+      - name: Imprimir variable de prueba
+        run: |
+              echo "🧪 Valor de la variable de prueba: $VARIABLE_PRUEBA"
+        env:
+         MI_VARIABLE_PRUEBA: ${{ vars.VARIABLE_PRUEBA }}    
 
       - name: Verificar secretos AWS2
         run: |
