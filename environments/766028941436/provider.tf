@@ -13,13 +13,6 @@ provider "aws" {
 }
 
 
-provider "aws" {
-  region = "us-east-1"
-  alias  = "virginia"
-  assume_role {
-    role_arn = "arn:aws:iam::766028941436:role/terraform/sitiosweb-gitlab-deploy-role"
-  }
-}
 
 terraform {
   required_providers {
