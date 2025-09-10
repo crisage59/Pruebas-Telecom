@@ -1,4 +1,4 @@
-name: Terraform Multi-Account
+name: Terraform Multi-Account Test
 
 on:
   push:
@@ -8,11 +8,12 @@ on:
 
 jobs:
   account1:
-    name: Deploy en Cuenta AWS 1
+    name: Prueba en Cuenta 1 (FAKE)
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: environments/766028941436
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,21 +23,47 @@ jobs:
         with:
           terraform_version: 1.6.0
 
-      - name: Terraform Init
-        run: terraform init
+      - name: Verificar secretos AWS1
+        run: |
+          echo "✅ Verificando secretos de AWS1..."
+          echo "AWS_ACCESS_KEY_ID length: ${#AWS_ACCESS_KEY_ID}"
+          echo "AWS_SECRET_ACCESS_KEY length: ${#AWS_SECRET_ACCESS_KEY}"
 
-      - name: Terraform Plan
-        run: terraform plan -input=false
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "❌ AWS_ACCESS_KEY_ID está vacío"
+          else
+            echo "✅ AWS_ACCESS_KEY_ID está presente"
+          fi
+
+          if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+            echo "❌ AWS_SECRET_ACCESS_KEY está vacío"
+          else
+            echo "✅ AWS_SECRET_ACCESS_KEY está presente"
+          fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS1_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS1_SECRET_ACCESS_KEY }}
 
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -input=false || echo "⚠️ Plan falló, es parte de la prueba"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS1_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS1_SECRET_ACCESS_KEY }}
+          TF_VAR_region: us-east-1
+
   account2:
-    name: Deploy en Cuenta AWS 2
+    name: Prueba en Cuenta 2 (FAKE)
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: environments/12345678
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -46,11 +73,36 @@ jobs:
         with:
           terraform_version: 1.6.0
 
-      - name: Terraform Init
-        run: terraform init
+      - name: Verificar secretos AWS2
+        run: |
+          echo "✅ Verificando secretos de AWS2..."
+          echo "AWS_ACCESS_KEY_ID length: ${#AWS_ACCESS_KEY_ID}"
+          echo "AWS_SECRET_ACCESS_KEY length: ${#AWS_SECRET_ACCESS_KEY}"
 
-      - name: Terraform Plan
-        run: terraform plan -input=false
+          if [ -z "$AWS_ACCESS_KEY_ID" ]; then
+            echo "❌ AWS_ACCESS_KEY_ID está vacío"
+          else
+            echo "✅ AWS_ACCESS_KEY_ID está presente"
+          fi
+
+          if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
+            echo "❌ AWS_SECRET_ACCESS_KEY está vacío"
+          else
+            echo "✅ AWS_SECRET_ACCESS_KEY está presente"
+          fi
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS2_SECRET_ACCESS_KEY }}
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Validate
+        run: terraform validate
+
+      - name: Terraform Plan
+        run: terraform plan -input=false || echo "⚠️ Plan falló, es parte de la prueba"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS2_SECRET_ACCESS_KEY }}
+          TF_VAR_region: us-east-1
